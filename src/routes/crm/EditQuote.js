@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Checkbox from '@material-ui/core/Checkbox';
 import GetEmail  from "./GetEmail";
+import moment from "moment";
 import emailjs from 'emailjs-com';
 
 import "./crm.css";
@@ -21,13 +22,15 @@ function EditQuote() {
 	const [deal, set_deal] = useState("");
 
 
+
+
 	const [user, set_user] = useState({});
 
 	const [comp_val, set_comp_val] = useState("loan");
 
 	const [checked, setChecked] = React.useState(true);
 
-	
+	const [last_send_quote, set_last_send_quote] = useState(0);
 
 	const [loading, setLoading] = useState(true);
 	const [quote, set_quote] = useState({});
@@ -205,7 +208,11 @@ function EditQuote() {
  
 		emailjs.send('service_hv2jtqn', 'template_yrma8m7', templateParams,"user_x9vAOPZv8OKN2EnsDJWAF")
     .then(function(response) {
+
+
        console.log('SUCCESS!', response.status, response.text);
+       set_last_send_quote(Date.now());
+       set_quote({last_send_quote,...quote});
 
        alert("Quote Sent ")
     }, function(error) {
@@ -231,7 +238,19 @@ function EditQuote() {
 
 						<div className="bg_white">
 
+							
+							{
+								last_send_quote ?
+								<div className="grid_quote_head">
+								<h3>Last Quote Sent </h3>
+								<p>{moment(last_send_quote).format("LLL")}</p>
+							</div>
+							:
 
+							<div>
+							</div>
+							}
+							
 							<div className="grid_quote_head">
 								<h3>Contact </h3>
 								<p><GetEmail contact_id={quote.user}/></p>
