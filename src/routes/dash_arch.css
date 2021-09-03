@@ -1,0 +1,106 @@
+.dash{
+	min-height: 100vh;
+	background-color: #fff;
+}
+
+.dash_board_grid{
+	display:flex;
+	grid-template-columns: 1fr 9fr;
+	background-color: #fff;
+
+	
+}
+.dash_board_main{
+	background-color: #f0f3f5;
+	width:100vw;
+	margin: 16px;
+	padding: 16px;
+	border-radius: 16px;
+	min-height:70vh;
+}
+
+.dash_menu_data_grid{
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+	background-color: #fff;
+	border-radius: 16px;
+}
+
+.route_name>p{
+	font-size:1.5rem;
+	font-weight:500;
+	text-transform: uppercase;
+}
+
+.dash_borad_comp{
+	background-color: #f8f8f8;
+	padding: 1.5rem;
+	display: flex;
+	flex-direction: column;
+	margin: 14px;
+	border-radius: 16px;
+	cursor: pointer;
+	
+
+}
+
+.dash_borad_comp>.MuiSvgIcon-root{
+	background-color: #fff;
+	padding: 16px;
+	margin-bottom: 16px;
+	font-size: 50px;
+	border-radius: 16px;
+	color: #444;
+}
+
+.dash_borad_comp>h2{
+	font-size: 16px;
+}
+.dash_borad_comp>p{
+	font-size:14px;
+	color: #666;
+	font-weight: 400;
+}
+
+.dash_borad_comp:hover{
+	background-color:#d8ebe2;
+}
+
+
+/**crm_switch_screen**/
+
+.crm_switch_screen{
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+
+.crm_switch_comp{
+	background-color: #fff;
+	margin-right:5px;
+	padding: 10px 14px 10px 14px ;
+	border-top: 2px solid #ccc;
+	border-radius:4px;
+	font-size: 14px;
+	color: #666;
+	cursor: pointer;
+
+
+}
+
+
+.crm_switch_comp_hover{
+	background-color: #474a94;
+	color: #fff;
+}
+
+
+.crm_switch_render{
+	box-shadow:0px 0px 8px -5px #666;
+	border-radius: 5px;
+	padding: 14px;
+	margin-top: 8px;
+	background-color: #fff;
+}
+

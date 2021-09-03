@@ -1,0 +1,135 @@
+/*Header CSS*/
+
+.header{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	padding:0.5rem;
+}
+
+.header>img{
+	width:150px;
+	height:50px;
+}
+
+.popup_content{
+	font-size: 12px;
+}
+
+.header_head{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+
+.header_head>p{
+	font-size: 14px;
+	font-weight: 400;
+	font-family:'Poppins';
+}
+
+.header_head{
+	background-color: #f8f8f8;
+	padding: 14px;	
+	border-radius: 14px;
+}
+
+.head_content{
+	margin-right: 16px;
+}
+
+
+
+/***NavBar css ***/
+
+
+.nav_bar{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #fff;
+}
+
+.nav_bar>.MuiIconButton-root{
+	margin: 0px 16px 0px 16px;
+}
+
+
+/****MainHeadComp****/
+
+.main_header{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	background-color: #fff;
+	padding: 16px;
+}
+
+.main_header>img{
+	width:150px;
+	height: 50px;
+}
+
+
+/*****Profile***/
+
+.profile{
+	background-color: #fff;
+}
+
+.dash_profile{
+	background-color: #fff;
+	padding: 14px;
+	border-radius: 14px;
+}
+
+
+.profile_form_grid{
+	display: flex;
+	flex-direction: column;
+
+}
+.profile_form_comp{
+	display:grid;
+	grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+	font-size: 14px;
+	margin-top: 14px;
+
+}
+
+.profile_form_comp>input{
+	padding:8px 12px 8px 12px;
+}
+.profile_form_comp>select{
+	padding:8px 12px 8px 12px;
+}
+
+
+.profile_form_comp>button{
+	justify-self: flex-start;
+}
+
+
+
+
+/***member_list */
+
+.member_list{
+	display: grid;
+	grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+	grid-gap: 14px;
+}
+
+.member{
+	background-color: #fff;
+	padding: 14px;
+	display: flex;
+	flex-direction: column;
+	font-size: 12px;
+	border-radius: 14px;
+}
+
+.member>img{
+	width: 100px;
+}
+

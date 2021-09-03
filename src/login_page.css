@@ -1,0 +1,36 @@
+.login_page{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	margin-top:5rem;
+}
+
+.main_login{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: #2c386f;
+	padding: 16px;
+	color: #fff;
+	border-radius: 16px;
+}
+
+.main_login>h1{
+	font-size: 2rem;
+	text-transform:uppercase;
+}
+.main_login>h2{
+	font-size:1rem;
+	text-transform:uppercase;
+}
+
+.main_login>a{
+	margin-top: 16px;
+	font-size:1rem;
+	text-transform:uppercase;	
+	color: #fff;
+}
+
+
+/*0b2594*/
