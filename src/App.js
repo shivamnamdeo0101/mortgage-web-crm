@@ -17,6 +17,8 @@ import Profile from  "./routes/profile/Profile";
 import AddMember from  "./routes/add_member/AddMember"; 
 
 import EditQuote from "./routes/crm/EditQuote";
+import ViewQuote from "./routes/crm/ViewQuote";
+
 
 
 
@@ -46,6 +48,7 @@ const App = () => {
 
            <PrivateRoute exact path="/add_quote" component={EditQuote} />
            <PrivateRoute exact path="/edit_quote/:quote_id" component={EditQuote} />
+            <PrivateRoute exact path="/view_quote/:quote_id" component={ViewQuote} />
            
             <PrivateRoute exact path = "/profile" component={Profile} />
              <PrivateRoute exact path = "/members" component={AddMember} />

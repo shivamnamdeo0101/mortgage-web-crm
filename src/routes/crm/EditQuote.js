@@ -4,14 +4,25 @@ import firebase from "../../base";
 import Header from "../comp/Header";
 import NavBar from "../comp/NavBar";
 import {useHistory} from "react-router-dom";
-import {contact_type,process_status_list,quote_status_list} from "../../ListData";
+import {contact_type,process_status_list,quote_status_list,state_list} from "../../ListData";
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Checkbox from '@material-ui/core/Checkbox';
 import GetEmail  from "./GetEmail";
 import moment from "moment";
 import emailjs from 'emailjs-com';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+import VisibilityIcon from '@material-ui/icons/Visibility';
+import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 
+import ListAltIcon from '@material-ui/icons/ListAlt';
+import SendIcon from '@material-ui/icons/Send';
+
+
+import RecentActorsIcon from '@material-ui/icons/RecentActors';
 import "./crm.css";
 
 function EditQuote() {
@@ -22,7 +33,7 @@ function EditQuote() {
 	const [deal, set_deal] = useState("");
 
 
-
+	const [rate_table, set_rate_table] = useState("");
 
 	const [user, set_user] = useState({});
 
@@ -221,6 +232,32 @@ function EditQuote() {
 	}
 
 
+	function excelToObjects(stringData){
+
+  	
+  	var rows = stringData.split("\n");
+
+		var table = [];
+
+		for(var y in rows) {
+		    var cells = rows[y].split("\t");
+		    var row = [];
+		    for(var x in cells) {
+		        row.push(cells[x]);
+		    }
+		    table.push(row);
+		}
+
+		console.log(table);
+
+		
+
+		set_quote({...quote,quote_rate_table:stringData});
+
+   
+}
+
+
 
 	return (
 		<div>
@@ -251,10 +288,17 @@ function EditQuote() {
 							</div>
 							}
 							
-							<div className="grid_quote_head">
+							{
+								quote_id ? 
+									<div className="grid_quote_head">
 								<h3>Contact </h3>
 								<p><GetEmail contact_id={quote.user}/></p>
 							</div>
+							:
+							<div>
+							</div>
+							}
+						
 							<div className="grid_quote_head">
 								<h3>Mortgage Deal </h3>
 								<select value={deal} onChange={(e)=>set_deal(e.target.value)}>
@@ -269,36 +313,7 @@ function EditQuote() {
 							</div>
 
 
-							<div className="quote_milestone_list">
-								<h3>Action </h3>
-								<div className="quote_milestone_list">
-
-
-									{
-										quote_id &&
-											<div className="blue_button" onClick={()=>add_quote()}>
-												<p>New</p>
-											</div>
-									}
-
-								
-								
-									<div className="blue_button" onClick={()=>on_duplicate()}>
-										<p>Duplicate</p>
-									</div>
-									<div className="blue_button" onClick={()=>history.push("/view_contact/"+`${quote.user}`)}>
-										<p>Contact</p>
-									</div>
-									<div className="blue_button" onClick={()=>history.push("/add_task_user/"+`${quote.user}`)}>
-										<p>Task</p>
-									</div>
-									<div className="blue_button" onClick={()=>send_quote()}>
-										<p>Send Quote</p>
-									</div>
-									
-
-								</div>
-							</div>
+							
 							<div className="quote_milestone_list margin_top">
 								<h3>Milestone </h3>
 								<div className="quote_milestone_list">
@@ -312,6 +327,7 @@ function EditQuote() {
 												<Tooltip title={item.val} arrow>
 										
 													<Checkbox
+																icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />}
 												        checked={(quote.milestone >= index || quote.milestone == 14)}
 												        onChange={()=>handleChecked(index)}
 												        color="primary"
@@ -330,6 +346,8 @@ function EditQuote() {
 									<Tooltip title="Need Changes" arrow>
 									
 										<Checkbox
+
+													icon={<RadioButtonUncheckedIcon />} checkedIcon={<CheckCircleIcon />}
 									        checked={quote.milestone == 14}
 													onChange={()=>handleChecked(14)}
 									        color="primary"
@@ -342,6 +360,48 @@ function EditQuote() {
 
 							</div>
 
+
+								<div className="quote_action_list">
+
+
+									{
+										quote_id &&
+											<div className="action_button" onClick={()=>add_quote()}>
+												<AddCircleOutlineIcon />
+												<p>New</p>
+											</div>
+									}
+
+								
+								
+									<div className="action_button" onClick={()=>on_duplicate()}>
+										<FileCopyIcon />
+										<p>Duplicate</p>
+									</div>
+									<div className="action_button" onClick={()=>history.push("/view_quote/"+`${quote.key}`)}>
+										<VisibilityIcon />
+										<p>Preview</p>
+									</div>
+									<div className="action_button" onClick={()=>history.push("/view_contact/"+`${quote.user}`)}>
+										<PermContactCalendarIcon />
+										<p>Contact</p>
+									</div>
+									<div className="action_button" onClick={()=>history.push("/add_task_user/"+`${quote.user}`)}>
+										<ListAltIcon />
+										<p>Task</p>
+									</div>
+									<div className="action_button" onClick={()=>send_quote()}>
+										<SendIcon />
+										<p>Send Quote</p>
+									</div>
+									<div className="action_button" onClick={()=>window.open("https://app.floify.com/","blank")}>
+										<RecentActorsIcon />
+										<p>Start Floify</p>
+									</div>
+									
+
+								</div>
+							
 
 							<div className="crm_switch_screen">
 
@@ -561,18 +621,23 @@ function EditQuote() {
 												</div>
 												<div className="quote_form_comp_input">
 														<label>Quote Rate Table</label>
-														<input type="text" name="quote_rate_table" value={quote.quote_rate_table} onChange={handleChange}/>
+														<textarea type="text" rows="15" name="quote_rate_table" 
+
+															value= {quote.quote_rate_table}
+
+
+														 onChange={(e)=>excelToObjects(e.target.value)}/>
 												</div>
 												<div className="quote_form_comp_input">
 														<label>Quote Comment</label>
-														<input type="text" name="quote_comment" value={quote.quote_commant} onChange={handleChange}/>
+														<textarea type="text" rows="15" name="quote_comment" value={quote.quote_commant} onChange={handleChange}/>
 												</div>
 											</div>
 
 										</div>
 
 
-									</div>
+									</div>	
 								}
 
 
@@ -709,6 +774,11 @@ function EditQuote() {
 												<div className="quote_form_comp_input">
 														<label>Phone</label>
 														<input type="number" name="realtor_phone" value={quote.realtor_phone} onChange={handleChange}/>
+												</div>
+												
+												<div className="quote_form_comp_input">
+														<label>License No</label>
+														<input type="text" name="realtor_license_no" value={quote.realtor_license_no} onChange={handleChange}/>
 												</div>
 												
 											</div>

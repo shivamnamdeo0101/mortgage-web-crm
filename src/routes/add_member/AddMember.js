@@ -9,6 +9,13 @@ import NavBar from "../comp/NavBar";
 import "../comp/comp.css";
 import moment from "moment";
 
+import IconButton from '@material-ui/core/IconButton';
+
+import Tooltip from '@material-ui/core/Tooltip';
+
+import Checkbox from '@material-ui/core/Checkbox';
+
+
 function AddMember() {
 
 
@@ -46,6 +53,12 @@ function AddMember() {
     return () => subscriber();
   }, [user_list]); 
 
+
+	const handleChecked =()=>{
+
+	}
+
+
 	return (
 		<div className="dash">
 				<Header />
@@ -72,6 +85,36 @@ function AddMember() {
 										<img src={item.avatar} alt="img"/>
 										<h3>{item.name}</h3>
 										<p>Joined On {moment(item.ads_no).format("LLL")}</p>
+
+										<div className="mem_rights">
+
+											<p>Privileges</p>
+											<div className="mem_rights_comp">
+												<p>Read</p>
+												<Tooltip title="User Read Privileges" arrow>
+													<Checkbox
+												        checked={true}
+																onChange={()=>handleChecked(14)}
+												        color="primary"
+												      />
+									
+												</Tooltip>
+											</div>
+											<div className="mem_rights_comp">
+												<p>Writes</p>
+												<Tooltip title="User Writes Privileges" arrow>
+													<Checkbox
+												        checked={true}
+																onChange={()=>handleChecked(14)}
+												        color="primary"
+												      />
+									
+												</Tooltip>
+											</div>
+											
+									
+
+										</div>
 									</div>
 								))
 							}
