@@ -19,14 +19,16 @@
 .main_login>h1{
 	font-size: 2rem;
 	text-transform:uppercase;
+	margin-bottom:2rem;
 }
 .main_login>h2{
 	font-size:1rem;
 	text-transform:uppercase;
+	
 }
 
 .main_login>a{
-	margin-top: 16px;
+	margin-top: 2rem;
 	font-size:1rem;
 	text-transform:uppercase;	
 	color: #fff;

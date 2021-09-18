@@ -11,8 +11,7 @@ export const sort_by = [
 
 
 export const process_status_list = [
-			{"key":"1","val":"None","data":""},
-			{"key":"2","val":"Any","data":"Any"},
+			{"key":"2","val":"","data":"All"},
 			{"key":"3","val":"Disclosure Finilized","data":"Disclosure Finilized"},
 			{"key":"4","val":"Disclosure Sent","data":"Disclosure Sent"},
 			{"key":"5","val":"Need Changes","data":"Need Changes"},
@@ -23,11 +22,27 @@ export const process_status_list = [
 
 	]
 
+
+export const loan_type_list = [
+	{"key":"2","val":"Conventional"},
+	{"key":"3","val":"Expended Guidelines"},
+	{"key":"4","val":"FHA"},
+	{"key":"5","val":"VA"},
+	{"key":"6","val":"USDA"},
+]
+
+
+export const loan_purchase_list = [
+	{"key":"2","val":"Purchase"},
+	{"key":"3","val":"Rate/Term Refinance"},
+	{"key":"4","val":"Refi Cash Out"},
+]
+
+
 export const quote_status_list = [
-			{"key":"1","val":"None","data":""},
-			{"key":"2","val":"Any","data":"Any"},
+			{"key":"2","val":"","data":"All"},
 			{"key":"3","val":"Active","data":"Active"},
-			{"key":"4","val":"Ina.ctive","data":"Inactive"},
+			{"key":"4","val":"Inactive","data":"Inactive"},
 			{"key":"5","val":"Expired","data":"Expired"},
 
 

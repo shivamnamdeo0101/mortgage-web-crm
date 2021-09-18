@@ -4,25 +4,41 @@ const express = require('express');
 const cors = require('cors');
 const twilio = require('twilio'); 
 
+const bodyParser = require('body-parser');
+const pino = require('express-pino-logger')();
+
 //twilio requirements -- Texting API 
-const accountSid = 'ACa7e54c4d0083bbf199bd391cc08f61bd';
-const authToken = '0ab3a929a8aafcf12bac4be9466b6878'; 
+const accountSid = process.env.TWILIO_ACCOUNT_SID;
+const authToken = process.env.TWILIO_AUTH_TOKEN; 
 const client = new twilio(accountSid, authToken);
 
 const app = express(); 
 app.use(cors()); 
+
+
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(pino);
+
 
 app.get('/api', (req, res) => {
     res.send('Server Running')
 })
 
 app.post('/api/send-sms', (req, res) => {
-    res.send('Hello to the Twilio Server')
-    const {  msg ,to} = req.query;
-    client.messages.create({
-        body: "Hello mesage from twilio ..",
-        to: "+917828353784",  
-        from: '+19547168413'
-    }).then((message) => console.log(message.body));
+    res.header('Content-Type', 'application/json');
+    client.messages
+    .create({
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to: req.body.to,
+        body: req.body.body,
+    })
+    .then(() => {
+      res.send(JSON.stringify({ success: true }));
+    })
+    .catch(err => {
+      
+      res.send(JSON.stringify({ success: false }));
+    });
 })
 app.listen(4000, () => console.log("Running on Port 4000"))

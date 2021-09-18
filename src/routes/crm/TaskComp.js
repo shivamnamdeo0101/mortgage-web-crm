@@ -163,10 +163,7 @@ if(loading){
 					<p>Show Completed</p>
 				</div>
 
-				<div className="blue_button" onClick={()=>add_task()}>
-					<p>+ Add Task</p>
-				</div>
-
+				
 			</div>
 
 			<div className="fetch_data">

@@ -4,7 +4,7 @@ import firebase from "../../base";
 import Header from "../comp/Header";
 import NavBar from "../comp/NavBar";
 import {useHistory} from "react-router-dom";
-import {contact_type,process_status_list,quote_status_list,state_list} from "../../ListData";
+import {contact_type,process_status_list,quote_status_list,state_list,loan_type_list,loan_purchase_list} from "../../ListData";
 import IconButton from '@material-ui/core/IconButton';
 import Tooltip from '@material-ui/core/Tooltip';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -44,7 +44,7 @@ function EditQuote() {
 	const [last_send_quote, set_last_send_quote] = useState(0);
 
 	const [loading, setLoading] = useState(true);
-	const [quote, set_quote] = useState({});
+	const [quote, set_quote] = useState({quote_status:"",process_status:""});
 
 	const [milestone, set_milestone] = useState(quote.milestone);
 
@@ -366,7 +366,7 @@ function EditQuote() {
 
 									{
 										quote_id &&
-											<div className="action_button" onClick={()=>add_quote()}>
+											<div className="action_button" onClick={()=>history.push("/add_quote_user/"+`${quote.user}`)}>
 												<AddCircleOutlineIcon />
 												<p>New</p>
 											</div>
@@ -442,8 +442,13 @@ function EditQuote() {
 											<div className="quote_form_comp">
 												<div className="quote_form_comp_input">
 												<label>Loan Purchase</label>
-												<input type="text" name="loan_purchase" value={quote.loan_purchase} onChange={handleChange}/>
-														
+													<select name="loan_purchase" value={quote.loan_purchase} onChange={handleChange}>
+														{
+															loan_purchase_list.map((item)=>(
+																<option key={item.key} value={item.val} >{item.val}</option>
+															))
+														}														
+													</select>	
 
 												</div>
 												<div className="quote_form_comp_input">
@@ -464,7 +469,13 @@ function EditQuote() {
 												</div>
 												<div className="quote_form_comp_input">
 														<label>Loan Type</label>
-														<input type="text" name="loan_type" value={quote.loan_type} onChange={handleChange}/>
+														<select name="loan_type" value={quote.loan_type} onChange={handleChange}>
+														{
+															loan_type_list.map((item)=>(
+																<option key={item.key} value={item.val} >{item.val}</option>
+															))
+														}														
+													</select>
 												</div>
 												<div className="quote_form_comp_input">
 														<label>Occupancy</label>
@@ -594,10 +605,9 @@ function EditQuote() {
 												<div className="quote_form_comp_input">
 												<label>Select User</label>
 
-												{
-													!quote_id ? 
 												
-														<select value={quote.user} name="user" onChange={handleChange}>
+												
+														<select  required disabled={quote_id ? true : false} value={quote.user} name="user" onChange={handleChange}>
 											
 														{ 
 														user_list.map((item)=>(
@@ -606,13 +616,7 @@ function EditQuote() {
 
 														</select>
 
-														:
-
-																<div className="get_email">
-																	<GetEmail contact_id={quote.user}/>
-																</div>
-
-												}
+														
 
 												</div>
 												<div className="quote_form_comp_input">
@@ -679,7 +683,7 @@ function EditQuote() {
 														<select value={quote.quote_status} name="quote_status" onChange={handleChange}>
 														{
 															quote_status_list.map((item)=>(
-																<option key={item.key} value={item.data} >{item.val}</option>
+																<option key={item.key} value={item.val} >{item.data}</option>
 															))
 														}														
 													</select>
@@ -689,7 +693,7 @@ function EditQuote() {
 														<select value={quote.process_status} name="process_status" onChange={handleChange}>
 														{
 															process_status_list.map((item)=>(
-																<option key={item.key} value={item.data} >{item.val}</option>
+																<option key={item.key} value={item.val} >{item.data}</option>
 															))
 														}														
 													</select>

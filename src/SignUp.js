@@ -42,33 +42,28 @@ const SignUp = ({ history }) => {
 
   return (
 
-    <div>
+  <div>
    <MainHeadComp />
    <div className="login_page">
-      
-
       <div className="main_login">
-      <h1>US Mortgage</h1> 
-
-      <h2>SIGN UP</h2>
-        <GoogleLogin
-    clientId={'402609478678-laa0oueehe9n0s7bhntahj7a2dvls8v2.apps.googleusercontent.com'}
-    onSuccess={handleSignUp}
-    onFailure={responseGoogle}
-    uxMode={true}
-  >
-   
-    <span> Sign up with Google</span>
-  </GoogleLogin>
-
-
-
-      <a href="/login">Go back to login page</a>
-    
-
+               <h1>US Mortgage</h1> 
+                <h2>SIGN UP</h2>
+                    <GoogleLogin
+                      clientId={'402609478678-laa0oueehe9n0s7bhntahj7a2dvls8v2.apps.googleusercontent.com'}
+                      onSuccess={handleSignUp}
+                      onFailure={responseGoogle}
+                      uxMode={true}
+                    >
+                      <span> Sign up with Google</span>
+                    </GoogleLogin>
+                    <a href="/login">Go back to login page</a>
         </div>
-    </div>
 
+
+
+
+      </div>
+      
     </div>
   );
 };

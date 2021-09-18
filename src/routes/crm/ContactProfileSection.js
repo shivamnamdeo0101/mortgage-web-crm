@@ -19,6 +19,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import {useHistory} from "react-router-dom";
 import Loading from "../../Loading";
 
+
+
+
 function ContactProfileSection({contact_id}) {
 
 
@@ -97,6 +100,9 @@ if(loading){
 	)
 }
 
+	
+	console.log(process.env);
+
 	const add_act = (tag)=>{
 
 		if(tag == "mail"){
@@ -137,24 +143,28 @@ if(loading){
 
 	const send_sms = ()=>{
 
-		var templateParams = {
+		var params = {
 		    name: user.FullName,
-		    msg:text,
-		    to:contact_id,
+		    body:text,
+		    to:user.Phone,
 		};
- 
 
 
-    fetch('http://localhost:4000/api/send-sms', {
+
+    fetch("http://localhost:4000/api/send-sms", {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(templateParams)
+      body: JSON.stringify(params)
     })
     .then(res => res.json())
     .then(data => {
-        console.log(data);
+       if(data.success){
+       	alert("SMS Sent")
+       }else{
+       	alert("SMS added To CRM but not sent check your Twilio credits or contact No in format with country code or not !");
+       }
     })
 
 }
@@ -314,7 +324,7 @@ if(loading){
 
 
 
-						<div className="task_render_comp ">
+						<div key={item.key} className="task_render_comp ">
 
 							<div className="inbox_render_comp">
 									<div className="index_comp_icon">

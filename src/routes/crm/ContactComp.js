@@ -43,7 +43,11 @@ function ContactComp() {
         querySnapshot.forEach(doc => {
 
 
-       if(doc.data().FullName.toLowerCase().includes(search.toLowerCase())||doc.data().Email.toLowerCase().includes(search.toLowerCase())){
+       if((doc.data().FullName.toLowerCase().includes(search.toLowerCase())||doc.data().Email.toLowerCase().includes(search.toLowerCase())) 
+
+
+
+       	){
 
         			 user_list_.push({
         		  	...doc.data(),
@@ -98,6 +102,22 @@ if(loading){
 	const view_contact = (email)=>{
 		history.push("/view_contact/"+`${email}`);
 	}
+
+
+	const which_type=(type)=>{
+		switch(type){
+			case "fqb":
+				return "Free Quote Bussiness";
+			case "fqr":
+				return "Free Quote Residential";
+			case "lb":
+				return "Free Quote Loan Bussiness";
+			default:
+				return "None";
+		}
+			
+	}
+
 
 
 	return (
@@ -213,7 +233,7 @@ if(loading){
 											</div>
 											<div className="contact_data">
 												<label>Type</label>
-												<p>{item.Type}</p>
+												<p>{which_type(item.Type)}</p>
 											</div>
 											<div className="contact_data">
 												<label>Source</label>

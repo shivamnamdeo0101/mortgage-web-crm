@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import firebase from "../../base";
 
-import {useHistory} from "react-router-dom";
+import {useHistory,useParams} from "react-router-dom";
 
 import QuestionAnswerIcon from '@material-ui/icons/QuestionAnswer';
 
@@ -15,12 +15,14 @@ import Loading from "../../Loading";
 import GetEmail from "./GetEmail";
 
 
+
+
 function QuoteComp() {
 
 	const [quote_list, set_quote_list] = useState([]);
 	const [process_status, set_process_status] = useState("");
 	const [lead_status_text, set_lead_status_text] = useState("");
-	const [quote_status, set_quote_status] = useState("first_name");
+	const [quote_status, set_quote_status] = useState("");
 
 	const [lead_source_text, set_lead_source_text] = useState("");
 	const [state, set_state] = useState("");
@@ -30,6 +32,8 @@ function QuoteComp() {
 	const history  = useHistory();
 
 	const [loading, setLoading] = useState(true);
+
+
 
 
 	useEffect(() => {
@@ -43,18 +47,20 @@ function QuoteComp() {
   
         querySnapshot.forEach(doc => {
 
-
-        			 quote_list_.push({
+        	if(doc.data().quote_status.includes(quote_status) && doc.data().quote_comment.toLowerCase().includes(search.toLowerCase()) && doc.data().process_status.includes(process_status) ){
+        		quote_list_.push({
         		  	...doc.data(),
           	 		 key: doc.id
         		  });
+        	}
+        			 
         	
         		 
         	       
         	      
 
         });
-    
+    	
         set_quote_list(quote_list_);
         setLoading(false);
       });
@@ -107,15 +113,6 @@ if(loading){
 		<div>
 
 			<div className="contact_filter">
-
-
-				
-
-				<div className="filter_contact_comp">
-					<div className="blue_button" onClick={()=>add_quote()}>
-						<p>+ New</p>
-					</div>
-				</div>
 
 				<div className="filter_contact_comp">
 					<label>Search</label>
@@ -173,6 +170,10 @@ if(loading){
 											<div className="contact_data">
 												<label>Status</label>
 												<p>{item.quote_status}</p>
+											</div>
+											<div className="contact_data">
+												<label>Status</label>
+												<p>{item.process_status}</p>
 											</div>
 											<div className="contact_data">
 												<label>Quote Name</label>

@@ -128,14 +128,18 @@ function ViewQuote() {
 
 					<div className="rate_table">
 													
+													{
+														quote.quote_rate_table !=null ?
+													
 													<table>
 													    <th>Rate</th>
-													    <th>Loan Credit</th>
-													    <th>Lender Credit</th>
-													     <th>Monthly Payment</th>
-													     <th>Monthly Payment</th>
-													     <th>Payment With Escrow (plus HDA Fees)</th>
-													     <th>APR ** </th>
+													    <th>APR</th>
+													    <th>Price</th>
+													     <th>Discount/Rebate</th>
+													     <th>Discount/Rebate</th>
+													     <th>Lender Fees</th>
+													     <th>P & I </th>
+													     <th>Total Payment </th>
 
 													  <tbody>
 														{
@@ -159,6 +163,11 @@ function ViewQuote() {
 															}
 														</tbody>
 													</table>
+													:
+
+													<div>
+													</div>
+													}
 
 					</div>
 

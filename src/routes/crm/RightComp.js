@@ -93,6 +93,10 @@ function RightComp({contact_id}) {
 		history.push("/add_task_user/"+`${contact_id}`);
 	}
 
+	const add_user_quote = ()=>{
+		history.push("/add_quote_user/"+`${contact_id}`);
+	}
+
 	return (
 
 		<div className="right_comp">
@@ -125,6 +129,15 @@ function RightComp({contact_id}) {
 
 			<h2>QUOTES</h2>
 			<div className="quote">
+
+				<div className="row_comp">
+					<div className="right_head">
+						
+					</div>
+					<div className="blue_button" onClick={()=>add_user_quote()}>
+						<p>+ Add Quote</p>
+					</div>
+				</div>
 
 				{
 					quote_list.map((item)=>(
