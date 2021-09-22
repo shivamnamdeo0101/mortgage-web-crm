@@ -5,7 +5,7 @@ import "./App.css";
 function Loading() {
 	return (
 		<div className="loading">
-			 <CircularProgress color="#444"/>
+			 <CircularProgress color="inherit"/>
 		</div>
 	)
 }

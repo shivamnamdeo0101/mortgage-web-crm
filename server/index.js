@@ -37,8 +37,8 @@ app.post('/api/send-sms', (req, res) => {
       res.send(JSON.stringify({ success: true }));
     })
     .catch(err => {
+      res.send(err);
       
-      res.send(JSON.stringify({ success: false }));
     });
 })
 app.listen(4000, () => console.log("Running on Port 4000"))

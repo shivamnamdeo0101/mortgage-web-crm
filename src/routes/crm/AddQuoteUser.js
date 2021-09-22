@@ -126,7 +126,7 @@ function AddQuoteUser() {
 			firebase.firestore()
 		.collection('quotes')
 		.doc(quote.key)
-		.set({...quote,timestamp:Date.now()},{merge:true});
+		.set({...quote,timestamp:Date.now(),user_email:user.Email},{merge:true});
 
 		alert("Quote Edit Done");
 
@@ -141,7 +141,7 @@ function AddQuoteUser() {
 
 			firebase.firestore()
 		.collection('quotes')
-		.add({...quote,timestamp:Date.now(),user:contact_id,date_created:Date.now()});
+		.add({...quote,timestamp:Date.now(),user_email:user.Email,user:contact_id,date_created:Date.now()});
 
 		alert("Quote Added");
 
@@ -153,7 +153,7 @@ function AddQuoteUser() {
 
 			firebase.firestore()
 		.collection('quotes')
-		.add({...quote,timestamp:Date.now(),date_created:Date.now()});
+		.add({...quote,timestamp:Date.now(),user_email:user.Email,date_created:Date.now()});
 
 		alert("Quote Duplicated");
 

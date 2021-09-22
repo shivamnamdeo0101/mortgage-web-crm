@@ -3,6 +3,7 @@ import {useParams} from "react-router-dom";
 import firebase from "../../base";
 import Header from "../comp/Header";
 import NavBar from "../comp/NavBar";
+import Loading from "../../Loading";
 import {useHistory} from "react-router-dom";
 import {contact_type,process_status_list,quote_status_list,state_list,loan_type_list,loan_purchase_list} from "../../ListData";
 import IconButton from '@material-ui/core/IconButton';
@@ -21,6 +22,7 @@ import PermContactCalendarIcon from '@material-ui/icons/PermContactCalendar';
 import ListAltIcon from '@material-ui/icons/ListAlt';
 import SendIcon from '@material-ui/icons/Send';
 
+import SendQuote from "./SendQuote";
 
 import RecentActorsIcon from '@material-ui/icons/RecentActors';
 import "./crm.css";
@@ -48,7 +50,6 @@ function EditQuote() {
 
 	const [milestone, set_milestone] = useState(quote.milestone);
 
-	const [user_list, set_user_list] = useState([]);
 
 
 	function handleChange(evt) {
@@ -60,42 +61,6 @@ function EditQuote() {
   		});
 	}
 
-
-
-
-
-
-
-
-
-			useEffect(() => {
-
-    const subscriber = firebase.firestore()
-          .collection('contact')
-      .orderBy('Email','desc')
-      .onSnapshot(querySnapshot => {
-        
-        const user_list_ = [];
-  
-        querySnapshot.forEach(doc => {
-
-        		user_list_.push({
-        		  	...doc.data(),
-          	 		 key: doc.id
-        		 });
-    
-        	
-
-
-        });
-    
-        set_user_list(user_list_);
-        setLoading(false);
-      });
-  
-    // Unsubscribe from blogs when no longer in use
-    return () => subscriber();
-  }, []); 
 
 	useEffect(() => {
 
@@ -116,27 +81,17 @@ function EditQuote() {
   }, [quote_id]); 
 
 
-	useEffect(() => {
 
-		if(quote_id){
-			 const subscriber = firebase.firestore()
-      .collection('contact')
-      .doc(quote.user)
-      .onSnapshot(doc => {
-        	
-        set_user({key:doc.id,...doc.data()});
+if(loading){
+	return(
+		<div>	
+			<Loading />
+		</div>
+	)
+}
 
-        setLoading(false);
-      });
-  
-    // Unsubscribe from blogs when no longer in use
-    return () => subscriber();
-		}
-			
-		
 
-   
-  }, [quote_id]); 
+
 
 
 
@@ -151,6 +106,7 @@ function EditQuote() {
 		alert("Quote Edit Done");
 
 
+		set_last_send_quote("");
 		go_back();
 	}
 
@@ -199,37 +155,7 @@ function EditQuote() {
   };
 
 
-  const send_quote = ()=>{
 
-
-
-		var templateParams ={
-		    to_name:user.Email,
-		    phone:user.Phone,
-		    from_name:"aryansn0101@gmail.com",
-				loan_amount:quote.loan_amount,
-				name:user.FullName,
-				property_address:quote.property_address,
-				estimated_close_date:quote.estimated_close_date,
-				fico_score:quote.fico_score,
-				loan_type:quote.loan_type,
-				occupancy:quote.occupancy,
-				term_years:quote.term_years,
-		};
- 
-		emailjs.send('service_hv2jtqn', 'template_yrma8m7', templateParams,"user_x9vAOPZv8OKN2EnsDJWAF")
-    .then(function(response) {
-
-
-       console.log('SUCCESS!', response.status, response.text);
-       set_last_send_quote(Date.now());
-       set_quote({last_send_quote,...quote});
-
-       alert("Quote Sent ")
-    }, function(error) {
-       console.log('FAILED...', error);
-    });
-	}
 
 
 	function excelToObjects(stringData){
@@ -277,10 +203,10 @@ function EditQuote() {
 
 							
 							{
-								last_send_quote ?
+								quote.last_send_quote ?
 								<div className="grid_quote_head">
 								<h3>Last Quote Sent </h3>
-								<p>{moment(last_send_quote).format("LLL")}</p>
+								<p>{moment(quote.last_send_quote).format("LLL")}</p>
 							</div>
 							:
 
@@ -292,7 +218,7 @@ function EditQuote() {
 								quote_id ? 
 									<div className="grid_quote_head">
 								<h3>Contact </h3>
-								<p><GetEmail contact_id={quote.user}/></p>
+								<GetEmail contact_id={quote.user}/>
 							</div>
 							:
 							<div>
@@ -334,7 +260,7 @@ function EditQuote() {
 												      />
 													
 												</Tooltip>
-												<p>=></p>
+												<p> => </p>
 											</div>
 
 										))
@@ -378,6 +304,7 @@ function EditQuote() {
 										<FileCopyIcon />
 										<p>Duplicate</p>
 									</div>
+							
 									<div className="action_button" onClick={()=>history.push("/view_quote/"+`${quote.key}`)}>
 										<VisibilityIcon />
 										<p>Preview</p>
@@ -390,10 +317,9 @@ function EditQuote() {
 										<ListAltIcon />
 										<p>Task</p>
 									</div>
-									<div className="action_button" onClick={()=>send_quote()}>
-										<SendIcon />
-										<p>Send Quote</p>
-									</div>
+										
+									<SendQuote quote={quote} />
+
 									<div className="action_button" onClick={()=>window.open("https://app.floify.com/","blank")}>
 										<RecentActorsIcon />
 										<p>Start Floify</p>
@@ -431,7 +357,7 @@ function EditQuote() {
 
 
 
-							<form   id="quote_form" onSubmit={quote_id ? on_submit : on_add}>
+							<form   id="quote_form" onSubmit={on_submit}>
 
 								{
 									comp_val == "loan" &&
@@ -603,21 +529,8 @@ function EditQuote() {
 											<h2>Quote Info</h2>
 											<div className="quote_form_comp">
 												<div className="quote_form_comp_input">
-												<label>Select User</label>
-
-												
-												
-														<select  required disabled={quote_id ? true : false} value={quote.user} name="user" onChange={handleChange}>
-											
-														{ 
-														user_list.map((item)=>(
-																<option  key={item.key} value={item.key}> {item.Email}</option>
-														))}
-
-														</select>
-
-														
-
+												<label>User</label>
+													<input type="text" disabled value={quote.user_email} name="user" onChange={handleChange}/>
 												</div>
 												<div className="quote_form_comp_input">
 														<label>Quote Name</label>
@@ -625,12 +538,7 @@ function EditQuote() {
 												</div>
 												<div className="quote_form_comp_input">
 														<label>Quote Rate Table</label>
-														<textarea type="text" rows="15" name="quote_rate_table" 
-
-															value= {quote.quote_rate_table}
-
-
-														 onChange={(e)=>excelToObjects(e.target.value)}/>
+														<textarea type="text" rows="15" name="quote_rate_table" value= {quote.quote_rate_table} onChange={(e)=>excelToObjects(e.target.value)}/>
 												</div>
 												<div className="quote_form_comp_input">
 														<label>Quote Comment</label>
